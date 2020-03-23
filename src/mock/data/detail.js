@@ -1,4 +1,4 @@
-{
+export default {
 	"success": true,
 	"data": {
 		"title": "衡水中学，被外地人占领的高考工厂",

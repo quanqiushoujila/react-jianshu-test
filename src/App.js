@@ -1,12 +1,14 @@
-import React from 'react';
-import Login from './pages/login'
+import React, { Fragment } from 'react'
+import Header from './common/header'
+import { GlobalStyle } from './style'
 
 function App() {
   return (
-    <div className="App">
-      <Login/>
-    </div>
+    <Fragment>
+      <GlobalStyle/>
+    	<Header/>
+    </Fragment>
   );
 }
 
-export default App;
+export default App

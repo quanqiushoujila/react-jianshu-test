@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { getLogin } from '../../api/index'
-import './style.scss'
 class Login extends Component {
+
+  componentWillMount () {}
+
+  componentWillUpdate () {}
+
+  shouldComponentUpdata () {}
+
+  componentDidUpdata () {}
+
+  componentWillUnmount () {}
+
+  componentWillReceiveProps () {}
+
   componentDidMount () {
     this.login()
   }

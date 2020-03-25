@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 class Write extends Component {
-	render () {
+  render () {
     return (
       <div>Write</div>
     )

@@ -18,9 +18,9 @@ class Login extends Component {
     this.login()
   }
 
-	render () {
+  render () {
     return (
-    	<div>Login</div>
+      <div>Login</div>
     )
   }
 

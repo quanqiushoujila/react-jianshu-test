@@ -11,7 +11,7 @@ Mock.setup({
 })
 
 const data = [
-	{
+  {
     api: 'detail',
     data: detailData
   },

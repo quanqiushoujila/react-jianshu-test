@@ -4,6 +4,7 @@ import './style.js'
 import App from './App'
 import './statics/iconfont/iconfont.css'
 import * as serviceWorker from './serviceWorker'
+import './statics/styles/base.css'
 
 import 'antd/dist/antd.css'
 // import zhCN from 'antd/es/locale/zh_CN'

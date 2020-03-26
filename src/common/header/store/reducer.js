@@ -1,6 +1,5 @@
 import { fromJS } from 'immutable'
 import * as actionTypes from './actionTypes.js'
-// import * as actionCreators from './actionCreators'
 
 const defaultState = fromJS({
   focused: false,

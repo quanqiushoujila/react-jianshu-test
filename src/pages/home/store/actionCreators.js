@@ -1,4 +1,4 @@
-import { getHomeList } from '../../../api/index'
+import { getHome, getHomeList } from '../../../api/index'
 import * as actionTypes from './actionTypes'
 
 const changeHomeData = (data) => ({
@@ -10,7 +10,7 @@ const changeHomeData = (data) => ({
 
 export const getHomeData = () => {
   return (dispatch) => {
-    getHomeList().then(({ data }) => {
+    getHome().then(({ data }) => {
       let result = data.data
       dispatch(changeHomeData(result))
     }).catch((err) => {
@@ -18,4 +18,23 @@ export const getHomeData = () => {
     })
   }
 }
+
+export const getHomeListData = () => {
+  return (dispatch) => {
+    getHomeList().then(({ data }) => {
+      let result = data.data
+      dispatch({
+        type: actionTypes.ADD_ARTICLE_LIST,
+        data: result
+      })
+    }).catch((err) => {
+      throw err
+    })
+  }
+}
+
+export const toggleScrollTop = (status) => ({
+  type: actionTypes.TOGGLE_SCROLL_TOP,
+  data: status
+})
 

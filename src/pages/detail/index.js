@@ -1,11 +1,40 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getDetailData } from './store/actionCreators'
+import {
+  DetailContainer,
+  DetailWrapper,
+  Title,
+  ArticleWrapper
+} from './style'
 
 class Detail extends Component {
+
+  componentDidMount () {
+    this.props.getDetailData()
+  }
+
   render () {
+    const { detailData } = this.props
     return (
-      <div>detail</div>
+      <DetailContainer>
+        <DetailWrapper>
+          <Title>{detailData.title}</Title>
+          <ArticleWrapper dangerouslySetInnerHTML={{ __html: detailData.content }}>
+          </ArticleWrapper>
+        </DetailWrapper>
+      </DetailContainer>
     )
   }
 }
+const mapState = (status) => ({
+  detailData: status.getIn(['detail', 'detailData'])
+})
 
-export default Detail
+const mapDispatch = (dispatch) => ({
+  getDetailData: () => {
+    dispatch(getDetailData())
+  }
+})
+
+export default connect(mapState, mapDispatch)(Detail)

@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable'
 import * as actionTypes from './actionTypes'
 
-const defaultStatue = fromJS({
+const defaultState = fromJS({
   topicList: [],
   articleList: [],
   recommendList: [],
@@ -17,12 +17,20 @@ const changeHomeData = (state, action) => {
   })
 }
 
-export default (state = defaultStatue, action) => {
+const addArticleList = (state, action) => {
+  return state.merge({
+    articleList: state.get('articleList').concat(fromJS(action.data))
+  })
+}
+
+export default (state = defaultState, action) => {
   switch (action.type) {
     case actionTypes.CHANGE_HOME_DATA:
       return changeHomeData(state, action)
-    // case actionTypes.ADD_ARTICLE_LIST:
-    //   return state.set(fromJS(action.data))
+    case actionTypes.ADD_ARTICLE_LIST:
+      return addArticleList(state, action)
+    case actionTypes.TOGGLE_SCROLL_TOP:
+      return state.set('showScroll', action.data)
     default:
       return state
   }

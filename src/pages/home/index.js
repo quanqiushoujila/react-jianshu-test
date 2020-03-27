@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col } from 'antd'
+import { Link } from 'react-router-dom'
+import { getHomeData, getHomeListData, toggleScrollTop } from './store/actionCreators'
 import {
   Container,
   NoteList,
@@ -13,58 +15,130 @@ import {
   NoteImg,
   BoardWrapper,
   BoardItem,
-  BoardImg
+  BoardImg,
+  MoreLoading,
+  BackTop
 } from './style'
 
 class Home extends Component {
 
+  componentDidMount () {
+    const { getHomeData, toggleScrollTop, showScroll } = this.props
+    getHomeData()
+    this.initBind(toggleScrollTop, showScroll)
+  }
+
+  backTop () {
+    window.scrollTo(0, 0)
+  }
+
+  initTop (status) {
+    return (
+      <BackTop className={status ? '' : 'hide'} onClick={this.backTop}>
+        <svg viewBox="0 0 1024 1024" focusable="false"  data-icon="caret-up" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M858.9 689L530.5 308.2c-9.4-10.9-27.5-10.9-37 0L165.1 689c-12.2 14.2-1.2 35 18.5 35h656.8c19.7 0 30.7-20.8 18.5-35z"></path></svg>
+      </BackTop>
+    )
+  }
+
+  initArticleList (articleList) {
+    return articleList.map((item, index) =>{
+      if (item.get('imgUrl')) {
+        return (
+          <Link key={index} to={`/detail/${item.get('id')}`}>
+            <NoteItem>
+              <NoteContent>
+                <NoteTitle>{item.get('title')}</NoteTitle>
+                <NoteDesc>{item.get('desc')}</NoteDesc>
+              </NoteContent>
+              <NoteImgWrapper>
+                <NoteImg src={item.get('imgUrl')}></NoteImg>
+              </NoteImgWrapper>
+            </NoteItem>
+          </Link>
+        )
+      } else {
+        return (
+          <Link key={index} to={`/detail/${item.get('id')}`}>
+            <NoteItem>
+              <NoteNoContent>
+                <NoteTitle>{item.get('title')}</NoteTitle>
+                <NoteDesc>{item.get('desc')}</NoteDesc>
+              </NoteNoContent>
+            </NoteItem>
+          </Link>
+        )
+      }
+    })
+  }
+
+  initBoard (recommendList) {
+    return recommendList.map((item) => {
+      return (
+        <BoardItem key={item.get('id')}>
+          <BoardImg src={item.get('imgUrl')}></BoardImg>
+        </BoardItem>
+      )
+    })
+  }
+
+  initBind (toggleScrollTop, status) {
+    window.addEventListener('scroll', () => {
+      let top = document.documentElement.scrollTop
+      if (top > 100) {
+        if (!status) {
+          toggleScrollTop(true)
+        }
+      } else {
+        if (!status) {
+          toggleScrollTop(false)
+        }
+      }
+    })
+  }
+
   render () {
+    const { articleList, recommendList, getTopicListData, showScroll } = this.props
     return (
       <Container className='container'>
         <Row>
           <Col span={16}>
             <NoteList>
-              <NoteItem>
-                <NoteContent>
-                  <NoteTitle>李嘉欣与8岁儿子共浴，当亲情越过界限，对孩子更多的是“伤害”</NoteTitle>
-                  <NoteDesc>父母永远都是孩子最亲近的人，特别是妈妈从怀孕到生孩子这个过程，她们给了孩子生命，同时也时刻守护着孩子们的成长。 绝大多数情况下，妈妈和孩子都是最...</NoteDesc>
-                </NoteContent>
-                <NoteImgWrapper>
-                  <NoteImg src="https://upload-images.jianshu.io/upload_images/11864358-2c5f48f03dffb247.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"></NoteImg>
-                </NoteImgWrapper>
-              </NoteItem>
-              <NoteItem>
-                <NoteNoContent>
-                  <NoteTitle>李嘉欣与8岁儿子共浴，当亲情越过界限，对孩子更多的是“伤害”</NoteTitle>
-                  <NoteDesc>父母永远都是孩子最亲近的人，特别是妈妈从怀孕到生孩子这个过程，她们给了孩子生命，同时也时刻守护着孩子们的成长。 绝大多数情况下，妈妈和孩子都是最...</NoteDesc>
-                </NoteNoContent>
-              </NoteItem>
+              {this.initArticleList(articleList)}
             </NoteList>
+            <MoreLoading onClick={getTopicListData}>阅读更多</MoreLoading>
           </Col>
           <Col span={8}>
             <BoardWrapper>
-              <BoardItem>
-                <BoardImg src="https://cdn2.jianshu.io/assets/web/banner-s-club-aa8bdf19f8cf729a759da42e4a96f366.png"></BoardImg>
-              </BoardItem>
-              <BoardItem>
-                <BoardImg src="https://cdn2.jianshu.io/assets/web/banner-s-club-aa8bdf19f8cf729a759da42e4a96f366.png"></BoardImg>
-              </BoardItem>
+              {this.initBoard(recommendList)}
             </BoardWrapper>
           </Col>
         </Row>
+        {this.initTop(showScroll)}
       </Container>
     )
   }
 }
 
 const mapState = (state) => {
-  return {}
+  return {
+    articleList: state.getIn(['home', 'articleList']),
+    recommendList: state.getIn(['home', 'recommendList']),
+    showScroll: state.getIn(['home', 'showScroll'])
+  }
 }
 
-const mapDispatch = (dispatch) => ({
-  getHomeData: () => {
-
+const mapDispatch = (dispatch) => {
+  return {
+    getHomeData: () => {
+      dispatch(getHomeData())
+    },
+    getTopicListData: () => {
+      dispatch(getHomeListData())
+    },
+    toggleScrollTop: (status = false) => {
+      dispatch(toggleScrollTop(status))
+    }
   }
-})
+}
 
 export default connect(mapState, mapDispatch)(Home)

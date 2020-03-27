@@ -8,7 +8,6 @@ export const Container = styled.div`
 export const NoteList = styled.ul`
   
 `
-
 export const NoteItem = styled.li`
   min-height: 140px;
   position: relative;
@@ -65,4 +64,42 @@ export const BoardImg = styled.img`
   min-height: 50px;
   margin-bottom: 6px;
   border-radius: 4px;
+`
+
+export const MoreLoading = styled.div`
+  height: 40px;
+  margin: 30px auto 60px;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 20px;
+  color: #fff;
+  background-color: #a5a5a5;
+  display: block;
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #9b9b9b;
+  }
+`
+
+export const BackTop = styled.div`
+  box-sizing: border-box;
+  color: rgba(0,0,0,.65);
+  font-size: 14px;
+  position: fixed;
+  right: 100px;
+  bottom: 50px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-color: #f6f6f6;
+  border-radius: 50%;
+  line-height: 40px;
+  text-align: center;
+  &.hide {
+    display: none;
+  }
 `

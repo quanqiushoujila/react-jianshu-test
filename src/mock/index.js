@@ -12,29 +12,29 @@ Mock.setup({
 
 const data = [
   {
-    api: 'detail',
+    api: '/api/detail',
     data: detailData
   },
   {
-    api: 'headerList',
+    api: '/api/headerList',
     data: headerListData
   },
   {
-    api: 'home',
+    api: '/api/home',
     data: homeData
   },
   {
-    api: 'homeList',
+    api: '/api/homeList',
     data: homeListData
   },
   {
-    api: 'login',
+    api: '/api/login',
     data: loginData
   },
 ]
 
 data.forEach((item) => {
-  Mock.mock(`/api/${item.api}`, item.method || 'get', item.data)
+  Mock.mock(item.api, item.method || 'get', item.data)
 })
 
 export default Mock

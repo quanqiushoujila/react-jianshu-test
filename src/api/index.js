@@ -40,7 +40,7 @@ export function getHomeList (params = {}) {
   })
 }
 
-export function getLogin (params = {}) {
+export function login (params = {}) {
   return $http({
     methods: 'get',
     url: apis.login,
